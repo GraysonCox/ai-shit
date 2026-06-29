@@ -18,6 +18,28 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
       - id: log-in-to-ecr
         uses: aws-actions/amazon-ecr-login@v1
+<<<<<<< HEAD
       - run: |
           sam deploy \
             --stack-name=${{ github.event.repository.name }}
+=======
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        env:
+          ECR_REGISTRY: ${{ steps.log-in-to-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPOSITORY_NAME }}
+          IMAGE_TAG: ${{ github.sha }}
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - run: |
+          sam deploy \
+            --stack-name=${{ github.event.repository.name }} \
+            --parameter-overrides \
+              DiscordBotToken=${{ secrets.DISCORD_BOT_TOKEN }} \
+              DiscordBotImagetag=${{ steps.log-in-to-ecr.outputs.registry }}/${{ secrets.AWS_ECR_REPOSITORY_NAME }}:${{ github.sha }}
+>>>>>>> d75d081 (Eh?)
