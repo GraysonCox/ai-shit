@@ -1,0 +1,26 @@
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  ApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${AWS::StackName}-api
+      CodeUri: src
+      Handler: main.handler
+      Runtime: python3.13
+      Timeout: 30
+      MemorySize: 512
+      Environment:
+        Variables:
+          LOG_LEVEL: INFO
+      Events:
+        ApiEvent:
+          Type: HttpApi
+          Properties:
+            Method: ANY
+            Path: /{proxy+}
+            PayloadFormatVersion: "2.0"
+
+Outputs:
+  Url:
+    Value: !Sub https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com
