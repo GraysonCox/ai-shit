@@ -1,0 +1,19 @@
+name: Destroy
+"on":
+  workflow_dispatch:
+concurrency: ${{ github.event.repository.name }}
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: aws-actions/setup-sam@v2
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/GitHub
+          aws-region: ${{ secrets.AWS_REGION }}
+      - run: sam delete --stack-name=${{ github.event.repository.name }} --no-prompts
