@@ -1,7 +1,7 @@
 Transform: AWS::Serverless-2016-10-31
 
 Parameters:
-  DiscordBotImageTag:
+  DiscordBotImageUri:
     Type: String
   DiscordBotToken:
     Type: String
@@ -213,7 +213,7 @@ Resources:
       TaskRoleArn: !GetAtt TaskRole.Arn
       ContainerDefinitions:
         - Name: discord-bot
-          Image: !Ref DiscordBotImageTag
+          Image: !Ref DiscordBotImageUri
           Essential: true
           LogConfiguration:
             LogDriver: awslogs

@@ -32,4 +32,4 @@ jobs:
             --stack-name=${{ github.event.repository.name }} \
             --parameter-overrides \
               DiscordBotToken=${{ secrets.DISCORD_BOT_TOKEN }} \
-              DiscordBotImagetag=${{ steps.log-in-to-ecr.outputs.registry }}/${{ secrets.AWS_ECR_REPOSITORY_NAME }}:${{ github.sha }}
+              DiscordBotImageUri=${{ steps.log-in-to-ecr.outputs.registry }}/${{ secrets.AWS_ECR_REPOSITORY_NAME }}:${{ github.sha }}
