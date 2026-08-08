@@ -190,6 +190,11 @@ Resources:
                   - xray:PutTelemetryRecords
                 Resource: "*"
 
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Ref AWS::StackName
+
   EcsCluster:
     Type: AWS::ECS::Cluster
     Properties:
