@@ -1,16 +1,19 @@
 import logging
 import os
 
-from .controllers import discord_bot
+from rich.logging import RichHandler
+
+from .discord_stuff import bot
 
 
 def main():
-    logging.basicConfig(level=logging.INFO)
-    discord_token = os.getenv("DISCORD_TOKEN")
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(message)s",
+        datefmt="[%X]",
+        handlers=[RichHandler()],
+    )
+    discord_token = os.getenv("DISCORD_BOT_TOKEN")
     if not discord_token:
-        raise ValueError("DISCORD_TOKEN is a required environment variable.")
-    discord_bot.run(discord_token)
-
-
-if __name__ == "__main__":
-    main()
+        raise ValueError("DISCORD_BOT_TOKEN is a required environment variable.")
+    bot.run(discord_token)

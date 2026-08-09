@@ -230,7 +230,7 @@ Resources:
             - Name: AWS_DEFAULT_REGION
               Value: !Ref AWS::Region
           Secrets:
-            - Name: DISCORD_TOKEN
+            - Name: DISCORD_BOT_TOKEN
               ValueFrom: !Ref DiscordBotTokenSecret
           HealthCheck:
             Command:
