@@ -3,6 +3,8 @@ import logging
 import discord
 from discord.ext import commands
 
+from . import utils
+
 logger = logging.getLogger(__name__)
 
 
@@ -11,14 +13,15 @@ async def on_ready():
 
 
 async def on_message(bot: commands.Bot, message: discord.Message):
-    if message.author == bot.user:
+    if utils.is_from_bot(message):
         return
 
-    ctx = await bot.get_context(message)
-    if ctx.valid:
+    if await utils.is_command(bot, message):
+        logger.debug(f"Received command: {message.content}")
         await bot.process_commands(message)
         return
 
-    if isinstance(message.channel, discord.DMChannel):
+    if utils.is_dm(message):
+        logger.debug(f"Received DM message: {message.content}")
         async with message.channel.typing():
             await message.channel.send("Fuck you.")
