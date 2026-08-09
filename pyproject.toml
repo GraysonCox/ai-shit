@@ -8,6 +8,7 @@ dependencies = [
   "discord>=2.3.2",
   "langchain>=1.2.13",
   "langchain-aws>=1.4.1",
+  "rich>=15.0.0",
 ]
 
 [dependency-groups]
